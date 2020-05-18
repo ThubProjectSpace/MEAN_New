@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login/Signup</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+	<script type="text/javascript" src="javascripts/login.js"></script>
+</head>
+<body style="background-color:lightgrey" ng-app="loginapp">
+  <div class="container">
+  	<div class="col-md-4 col-md-offset-2" style="margin-top:150px;border:1px solid black;border-radius:3%;padding:15px;box-shadow:10px 10px 10px 10px;" ng-controller="loginController">
+  		<h1 class="text-center">Login</h1>
+  		<form class="form-group">
+  			<label>Email :</label>
+  			<input class="form-control" type="email" ng-model="log.email">
+  			<label>Password :</label>
+        <input class="form-control" type="password" ng-model="log.password">
+        <br>
+        <button class="btn btn-info" ng-click="login(log)">Login</button>
+        <br>
+        <br>
+        <a href="/forgot">Forgot password ?</a>
+  		</form>
+  	</div>
+  	<div class="col-md-4 col-md-offset-2" style="margin-top:150px;border:1px solid black;border-radius:3%;padding:15px;box-shadow:10px 10px 10px 10px;" ng-controller="signupController">
+  		<h1 class="text-center">Signup</h1>
+  		<form class="form-group">
+  			<label>Username :</label>
+  			<input class="form-control" type="text" ng-model="reg.name">
+  			<label>Email :</label>
+  			<input class="form-control" type="email" ng-model="reg.email">
+  			<label>Password :</label>
+        <input class="form-control" type="text" ng-model="reg.password">
+        <br>
+        <button class="btn btn-info" ng-click="signup(reg)">Signup</button>
+  		</form>
+  	</div>
+  </div>
+</body>
+</html>
