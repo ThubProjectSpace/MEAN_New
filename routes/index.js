@@ -18,7 +18,19 @@ router.get('/birthday', function(req, res) {
 });
 
 router.get('/home', function(req, res) {
+  if(req.session && req.session.user){
+  res.locals.user = req.session.user
   res.render('index');
+  }
+  else{
+    req.session.reset();
+    res.redirect('/');
+  }
+});
+
+router.get('/logout', function(req, res) {
+  req.session.reset();
+  res.redirect('/');
 });
 
 router.get('/forgot', function(req, res) {
@@ -93,6 +105,10 @@ router.post('/postlogin', function(req,res){
   var password1 = req.body.password;
   signup.findOne({"email":email1,"password":password1}, function(err,docs){
     if(docs){
+      //console.log(docs);
+      delete docs.password;
+      //console.log(docs);
+      req.session.user = docs;
       res.send(docs);
     }
     else{
