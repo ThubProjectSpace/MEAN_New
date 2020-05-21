@@ -3,18 +3,48 @@ var router = express.Router();
 var randomstring = require('randomstring');
 var nodemailer = require('nodemailer');
 var moment = require('moment');
+var qrcode = require('qrcode');
 var monk = require('monk');
+var multer = require('multer');
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+ 
+var upload = multer({ storage: storage })
 var db = monk('localhost:27017/aditya');
 var collection = db.get('users');
 var signup = db.get('signup');
 var birth = db.get('birth');
+var images = db.get('images')
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('login');
 });
 
+router.get('/image', function(req, res) {
+  images.find({}, function(err,docs){
+  res.render('image',{"a":docs});
+  });
+});
+
+router.get('/pdf', function(req, res) {
+  res.render('pdf');
+});
+
 router.get('/birthday', function(req, res) {
   res.render('birthday');
+});
+
+router.get('/qrcode', function(req, res) {
+  qrcode.toDataURL('Siva', function (err, url) {
+  console.log(url)
+  res.render('qrcode',{'qrcode':url});
+})
 });
 
 router.get('/home', function(req, res) {
@@ -179,6 +209,12 @@ router.post('/postbirth', function(req,res){
   //     console.log('Email sent');
   //   }
   //  });
+});
+
+router.post('/uploadimage', upload.single('image'),function(req,res){
+  console.log(req.file.originalname);
+  images.insert({'name':req.file.originalname})
+  res.redirect('/image')
 });
 
 module.exports = router;
